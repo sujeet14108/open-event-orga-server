@@ -75,6 +75,14 @@ class DataGetter:
         return Speaker.query.filter_by(event_id=event_id)
 
     @staticmethod
+    def get_speakers_by_event_id():
+        """
+        :param event_id: Event id
+        :return: Speaker objects filter by event_id
+        """
+        return Speaker.query.filter_by(event_id=get_event_id())
+
+    @staticmethod
     def get_speaker(speaker_id):
         """
         :param speaker_id: Speaker id
@@ -97,6 +105,14 @@ class DataGetter:
         :return: Sponsor with sponsor_id
         """
         return Sponsor.query.get(sponsor_id)
+
+    @staticmethod
+    def get_microlocations_by_id():
+        """
+        :param event_id: Event id
+        :return: All Microlocation filtered by event_id
+        """
+        return Microlocation.query.filter_by(event_id=get_event_id())
 
     @staticmethod
     def get_microlocations(event_id):
@@ -131,6 +147,14 @@ class DataGetter:
         files = File.query.filter_by(owner_id=login.current_user.id)
         print files
         return [(file.name, file.name) for file in files]
+
+    @staticmethod
+    def get_all_microlocations_tuple():
+        """
+        :return All files filtered by owner, Format [(test.png, test1.png)...]:
+        """
+        microlocations = DataGetter.get_microlocations_by_id()
+        return [(microlocation.id, microlocation.name) for microlocation in microlocations]
 
     @staticmethod
     def get_all_owner_files():

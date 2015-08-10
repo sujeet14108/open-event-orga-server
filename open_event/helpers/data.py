@@ -88,6 +88,7 @@ class DataManager(object):
                               type=form.type.data,
                               level=form.level.data)
         new_session.speakers = InstrumentedList(form.speakers.data if form.speakers.data else [])
+        new_session.microlocations = InstrumentedList([form.microlocations.data] if form.microlocations.data else [])
         save_to_db(new_session, "Session saved")
         update_version(event_id, False, "session_ver")
 
@@ -100,11 +101,15 @@ class DataManager(object):
         """
         data = form.data
         speakers = data["speakers"]
+        microlocations = data["microlocations"]
         del data["speakers"]
+        del data["microlocations"]
         db.session.query(Session)\
             .filter_by(id=session.id)\
             .update(dict(data))
         session.speakers = InstrumentedList(speakers if speakers else [])
+        session.microlocations = InstrumentedList([microlocations] if microlocations else [])
+
         save_to_db(session, "Session updated")
         update_version(session.event_id, False, "session_ver")
 

@@ -12,6 +12,14 @@ speakers_sessions = db.Table('speakers_sessions',
                               db.Integer,
                               db.ForeignKey('session.id')))
 
+microlocations_sessions = db.Table('microlocations_sessions',
+                    db.Column('microlocations_id',
+                              db.Integer,
+                              db.ForeignKey('microlocations.id')),
+                    db.Column('session_id',
+                              db.Integer,
+                              db.ForeignKey('session.id')))
+
 
 class Session(db.Model):
     __tablename__ = 'session'
@@ -30,10 +38,12 @@ class Session(db.Model):
                                secondary=speakers_sessions,
                                backref=db.backref('sessions',
                                                   lazy='dynamic'))
+    microlocations = db.relationship('Microlocation',
+                               secondary=microlocations_sessions,
+                               backref=db.backref('sessions',
+                                                  lazy='dynamic'))
+
     level = db.Column(db.String)
-    microlocation = db.relationship("Microlocation",
-                                    uselist=False,
-                                    backref="session")
     event_id = db.Column(db.Integer,
                          db.ForeignKey('events.id'))
 

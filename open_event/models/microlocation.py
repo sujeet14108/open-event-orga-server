@@ -12,7 +12,6 @@ class Microlocation(db.Model):
     longitude = db.Column(db.Float)
     floor = db.Column(db.Integer)
     room = db.Column(db.String)
-    session_id = db.Column(db.Integer, db.ForeignKey('session.id'))
     event_id = db.Column(db.Integer,
                          db.ForeignKey('events.id'))
 
